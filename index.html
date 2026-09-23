@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DDA Pre-Trip Mastery</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--text:#171923;--muted:#667085;--line:#e4e7ec;--accent:#3657d6;--good:#087443;--bad:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:var(--text)}header{background:#111827;color:white;padding:22px 18px;position:sticky;top:0;z-index:3}header h1{margin:0;font-size:1.25rem}header p{margin:5px 0 0;color:#cbd5e1;font-size:.9rem}.wrap{max-width:900px;margin:auto;padding:20px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tabs button,.btn{border:1px solid var(--line);background:white;padding:11px 14px;border-radius:12px;font-weight:700;cursor:pointer}.tabs button.active,.btn.primary{background:var(--accent);color:white;border-color:var(--accent)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.stat{padding:14px;border:1px solid var(--line);border-radius:14px}.stat b{display:block;font-size:1.5rem}.muted{color:var(--muted)}.section-btn{text-align:left;width:100%;min-height:90px}.qhead{display:flex;justify-content:space-between;gap:12px;align-items:center}.progress{height:9px;background:#edf0f5;border-radius:99px;overflow:hidden;margin:12px 0 20px}.progress i{display:block;height:100%;background:var(--accent)}.option{display:block;width:100%;text-align:left;padding:14px;margin:9px 0;border:1px solid var(--line);border-radius:12px;background:white;font-size:1rem;cursor:pointer}.option.correct{border-color:var(--good);background:#ecfdf3}.option.wrong{border-color:var(--bad);background:#fef3f2}.feedback{padding:12px;border-radius:12px;background:#f2f4f7;margin-top:12px}.flash{min-height:250px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer}.flash h2{font-size:1.45rem}.hide{display:none!important}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.study-row{padding:13px 0;border-bottom:1px solid var(--line)}.study-row:last-child{border:0}@media(max-width:560px){.wrap{padding:12px}.card{padding:16px}header{position:static}.option{min-height:52px}}
+</style></head><body>
+<header><h1>DDA Pre-Trip Mastery</h1><p>Diesel Driving Academy • Class A inspection study & practice</p></header>
+<main class="wrap">
+<div class="tabs"><button data-view="home" class="active">Home</button><button data-view="quiz">Practice Quiz</button><button data-view="cards">Flashcards</button><button data-view="guide">Study Guide</button></div>
+<section id="home">
+<div class="card"><h2>Master the inspection</h2><p class="muted">Practice by section or mix everything together. Answer choices shuffle every attempt so you learn the material, not the letter.</p><div class="grid"><div class="stat"><b id="totalQ">0</b><span class="muted">question bank</span></div><div class="stat"><b id="best">—</b><span class="muted">best score this device</span></div><div class="stat"><b>11</b><span class="muted">source pages covered</span></div></div></div>
+<div class="card"><h3>Practice by section</h3><div id="sections" class="grid"></div></div>
+<div class="card"><h3>Full mixed practice</h3><p>Runs through the complete question bank in randomized order.</p><button class="btn primary" id="startAll">Start full quiz</button></div>
+</section>
+<section id="quiz" class="hide"><div class="card"><div class="qhead"><b id="qCount"></b><span id="qScore" class="muted"></span></div><div class="progress"><i id="bar"></i></div><div class="muted" id="qSection"></div><h2 id="qText"></h2><div id="options"></div><div id="feedback" class="feedback hide"></div><div class="controls"><button class="btn primary hide" id="next">Next</button><button class="btn" id="quit">Exit quiz</button></div></div></section>
+<section id="cards" class="hide"><div class="card"><div class="qhead"><b id="cardCount"></b><span class="muted">Tap card to flip</span></div><div class="flash" id="flash"><div class="muted" id="cardSection"></div><h2 id="cardFront"></h2><p id="cardBack" class="hide"></p></div><div class="controls"><button class="btn" id="prevCard">Previous</button><button class="btn primary" id="nextCard">Next</button><button class="btn" id="shuffleCards">Shuffle</button></div></div></section>
+<section id="guide" class="hide"><div class="card"><h2>Quick-number memory sheet</h2><div class="study-row"><b>Front tire tread:</b> minimum 4/32 inch</div><div class="study-row"><b>Rear drive & trailer tread:</b> minimum 2/32 inch</div><div class="study-row"><b>Belt deflection:</b> more than 1/2–3/4 inch is excessive; belt should be snug</div><div class="study-row"><b>Slack adjuster/pushrod:</b> about 1 inch maximum movement by hand with brakes released</div><div class="study-row"><b>Governor cutout:</b> 120–140 PSI</div><div class="study-row"><b>Applied air-brake test:</b> hold brake 1 minute; gauges should not drop more than 4 PSI</div><div class="study-row"><b>Low-air warning:</b> approximately 55 PSI</div><div class="study-row"><b>Protection & parking valves pop:</b> approximately 40 PSI</div><div class="study-row"><b>Service brake road test:</b> 5 mph</div></div><div class="card"><h2>Railroad crossing script</h2><p><b>Approaching:</b> traffic check front to back; train check left to right.</p><p><b>Crossing:</b> “I will not brake, shift or accelerate over the track.”</p><p><b>After trailer clears:</b> traffic check front to back; “I will stay in the right lane and accelerate.”</p></div><div class="card"><h2>Emergency equipment — FET</h2><p>Fire extinguisher securely mounted and properly charged; three reflective warning triangles; spare electrical fuses.</p></div></section>
+</main>
+<script>
+const Q=[
+["Approach / Engine","When approaching the vehicle, what should you look for underneath the engine and transmission?","No puddles or dripping fluids",["Fresh tire marks","A dry exhaust tip","Matching mud flaps"]],
+["Approach / Engine","Front lights and reflectors should be…","Clean, not missing or broken, and the proper color",["Covered to prevent glare","All white in color","Loose enough to adjust by hand"]],
+["Approach / Engine","What exhaust-system condition should be reported as a defect?","Leaks, rust, carbon soot, cracks, holes, or severe dents",["Secure mounting","Tight connections","Secure clamps"]],
+["Approach / Engine","Engine hoses should be checked to make sure they are not…","Cracked, worn, frayed, or leaking",["Warm after operation","Black in color","Marked by the manufacturer"]],
+["Approach / Engine","How should the alternator be mounted?","Securely mounted with wires securely fastened",["Loosely mounted for belt movement","Supported only by its wires","Mounted without fasteners"]],
+["Approach / Engine","What powers the alternator on the DDA inspection sheet?","A belt",["A gear","An air line","Hydraulic pressure"]],
+["Approach / Engine","How much belt deflection is considered excessive on the inspection sheet?","More than 1/2 to 3/4 inch",["More than 1/8 inch","Exactly 1/4 inch","More than 2 inches"]],
+["Approach / Engine","What should the belt look like?","Not frayed, cracked, or showing loose fibers or wear",["Wet with coolant","Loose enough to twist freely","Covered in oil"]],
+["Driver Engine / Steering","What should you say about the coolant level?","It is adequate",["It must reach the cap","It should be below refill","It is checked only after driving"]],
+["Driver Engine / Steering","The water pump should be…","Securely mounted, not loose, and not leaking",["Loose enough to move by hand","Disconnected during inspection","Leaking slightly under pressure"]],
+["Driver Engine / Steering","What drives the water pump on this inspection sheet?","A belt",["A gear","Electric motor only","Air pressure"]],
+["Driver Engine / Steering","Where should the engine oil level be?","Above the refill mark in the safe operating range",["Below the refill mark","At the very top of the dipstick","Anywhere visible on the dipstick"]],
+["Driver Engine / Steering","How is the air compressor driven on this inspection sheet?","Gear driven",["Belt driven","Chain driven","Hydraulically driven"]],
+["Driver Engine / Steering","How is the power steering pump driven on this inspection sheet?","Gear driven",["Belt driven","Chain driven","Electrically driven"]],
+["Driver Engine / Steering","What condition should the shock absorber be in?","Securely mounted and not leaking",["Loose and flexible","Wet with oil","Missing its upper mount"]],
+["Driver Engine / Steering","Power steering fluid should be…","At the proper level above the refill mark",["Below the refill mark","Filled above the cap","Checked only by tire pressure"]],
+["Driver Engine / Steering","The steering box should be…","Securely mounted, not leaking, with no missing nuts or bolts",["Loose enough to flex","Leaking slightly","Missing one mounting bolt"]],
+["Driver Engine / Steering","What should you inspect on steering linkage?","Links, arms, rods, joints, sockets, nuts, bolts, and cotter pins",["Only the steering wheel","Only the tires","Only the steering box paint"]],
+["Suspension / Brakes","Spring mounts and hangers should have…","Brackets, bolts, and bushings in place with no cracks or broken hangers",["Missing bushings for flexibility","Loose bolts for movement","Cracked hangers if still attached"]],
+["Suspension / Brakes","Leaf springs must not be…","Missing, shifted, cracked, or broken",["Painted","Curved","Made of metal"]],
+["Suspension / Brakes","What should you check on U-bolts?","No broken, missing, or loose bolts",["They can turn by hand","They are freshly painted","They have no visible threads"]],
+["Suspension / Brakes","Brake hoses should be…","Not cracked, worn, or frayed, with secure non-leaking fittings",["Pinched tightly","Taped at couplings","Disconnected from air supply"]],
+["Suspension / Brakes","The brake chamber should be…","Securely mounted, not leaking, cracked, or dented, with no missing clamps",["Loose enough to move","Dented but dry","Missing a clamp if mounted"]],
+["Suspension / Brakes","With brakes released, how far should the pushrod move when pulled by hand?","No more than about 1 inch",["About 3 inches","No more than 4 inches","Exactly 2 inches"]],
+["Suspension / Brakes","Brake drums should have…","No cracks, holes, dents, or loose or missing bolts",["Visible grease on friction surfaces","Deep cracks if bolts are tight","Missing bolts if drum is intact"]],
+["Suspension / Brakes","Brake linings should be…","Not dangerously thin and free of grease or oil contaminants",["Coated with oil","As thin as possible","Wet for cooling"]],
+["Front Tires — ICD","Minimum front-tire tread depth is…","4/32 inch",["2/32 inch","1/32 inch","6/32 inch"]],
+["Front Tires — ICD","Front tires should be…","Evenly worn with no cuts or tread/sidewall damage",["Unevenly worn","Cut on the sidewall","Missing the valve stem"]],
+["Front Tires — ICD","How do you verify tire inflation?","With a proper tire gauge",["By kicking the tire","By looking only","By tapping the rim"]],
+["Front Tires — ICD","A rim should have…","No bends, damage, welding repairs, or rust trails indicating looseness",["Fresh welding repairs","Visible bends","Rust trails from loose mounting"]],
+["Front Tires — ICD","Lug nuts should be…","All present and not loose, with no radiating rust or cracks",["Loose enough to turn","Missing one if others are tight","Surrounded by cracks"]],
+["Front Tires — ICD","The front hub oil seal should be…","Adequate and not leaking",["Dry because it contains no oil","Leaking slightly","Removed for inspection"]],
+["Cab / Safety Equipment","Door and mirror brackets should be…","Securely mounted and not damaged",["Loose for adjustment","Cracked but usable","Held with temporary tape"]],
+["Cab / Safety Equipment","What does FET include?","Fire extinguisher, three reflective warning triangles, and spare electrical fuses",["First aid kit, extinguisher, tow chain","Flares, extinguisher, tire chains","Flashlight, extinguisher, two triangles"]],
+["Cab / Safety Equipment","The fire extinguisher should be…","Securely mounted and properly charged",["Loose for quick access","Discharged before inspection","Stored outside the cab"]],
+["Cab / Safety Equipment","How many reflective warning triangles are required by the DDA sheet?","Three",["One","Two","Four"]],
+["Cab / Safety Equipment","What should you check on the fuel tank and cap?","Tank secure, cap tight, and no leaks",["Cap loose for venting","Tank moves slightly","Minor leaks are acceptable"]],
+["Trailer Front / Tractor Rear","The trailer header board should be…","Secure, strong enough for cargo, and not damaged or missing rivets",["Loose for cargo movement","Missing rivets if still upright","Cracked if cargo is light"]],
+["Trailer Front / Tractor Rear","Glad hands should be…","Locked, sealed, and free of damage",["Loose and venting","Taped together","Cracked but connected"]],
+["Trailer Front / Tractor Rear","The electrical connector should be…","Firmly seated and locked on truck and trailer",["Partially inserted","Hanging freely","Held only by its cable"]],
+["Trailer Front / Tractor Rear","Air and electrical lines must not be…","Crimped, cracked, chafed, taped, tangled, pinched, spliced, or worn",["Supported off tractor parts","Properly connected","Free of cuts"]],
+["Trailer Front / Tractor Rear","Catwalk and steps should be…","Solid, securely bolted, and clear of loose objects",["Loose for flexibility","Covered with loose tools","Missing mounting bolts"]],
+["Trailer Front / Tractor Rear","What should you check on the tractor frame?","No cracks or bends in frame members and no damaged or missing cross members",["Only paint color","Only surface dust","Only license markings"]],
+["Trailer Front / Tractor Rear","The driveshaft should not be…","Bent, twisted, or cracked",["Secure at U-joints","Free of foreign objects","Straight"]],
+["Trailer Front / Tractor Rear","U-joints on the driveshaft should be…","Secure and free of foreign objects",["Loose and dry","Missing fasteners","Packed with debris"]],
+["Trailer Front / Tractor Rear","The torsion bar should be…","Securely mounted and not damaged",["Loose","Cracked","Missing its mount"]],
+["Rear Drive Axle","Minimum rear drive-axle tire tread depth is…","2/32 inch",["4/32 inch","1/32 inch","6/32 inch"]],
+["Rear Drive Axle","Budd spacing should show wheels that are…","Evenly spaced, not damaged, and free of foreign objects",["Touching each other","Packed with debris","Unevenly spaced"]],
+["Rear Drive Axle","The axle seal should be…","Not leaking",["Slightly leaking","Removed","Covered in fresh oil"]],
+["Coupling System","The trailer apron should be…","Not bent, cracked, or broken",["Bent upward","Cracked at the edge","Broken but resting flat"]],
+["Coupling System","What should the GAP inspection show?","Trailer lies flat on the fifth-wheel skid plate with no space between them",["A visible gap for turning","A two-inch gap","Space only on the driver side"]],
+["Coupling System","The fifth-wheel skid plate should be…","Properly lubricated and securely mounted",["Dry and unlubricated","Loose on the platform","Missing mounting pins"]],
+["Coupling System","The release arm should be…","Secure, all the way in, and engaged",["Halfway out","Loose","Pulled out while coupled"]],
+["Coupling System","What should you verify about the safety latch?","It is in place",["It is removed","It hangs loose","It is optional"]],
+["Coupling System","The fifth-wheel platform should have…","No cracks or breaks in the supporting structure",["A crack for drainage","A broken support if bolts are tight","Loose brackets"]],
+["Coupling System","Sliding fifth-wheel locking pins should be…","Fully engaged",["Half engaged","Removed","Loose for adjustment"]],
+["Coupling System","Why must fifth-wheel position provide tractor-frame clearance?","So the tractor frame clears the landing gear during turns",["So the trailer rides higher","So tires can touch the landing gear","So the release arm stays out"]],
+["Coupling System","Fifth-wheel mounting hardware should have…","No loose or missing brackets, clamps, bolts, or nuts",["At least one loose bolt","Missing clamps if welded","Loose nuts for movement"]],
+["Coupling System","Locking jaws should be…","Secure around the kingpin and hold it in place",["Open around the kingpin","Touching only one side","Loose enough for kingpin movement"]],
+["Coupling System","The kingpin should be…","Not bent or damaged",["Bent slightly","Cracked but engaged","Loose from the apron"]],
+["Coupling System","Splash guards should be…","Securely mounted and not damaged",["Loose","Missing mounts","Torn"]],
+["Air Suspension / Trailer","Air-bag mounting bolts should be…","In place and not damaged",["Missing one per side","Loose","Bent"]],
+["Air Suspension / Trailer","Air bags should be…","Not damaged or leaking",["Leaking slowly","Cracked but inflated","Torn"]],
+["Air Suspension / Trailer","DOT reflective tape should be…","Present and securely affixed",["Peeling off","Missing","Covered"]],
+["Air Suspension / Trailer","Trailer frame members and cross members should have…","No cracks, bends, breaks, or missing members",["Cracked cross members","Missing supports","Bent frame members"]],
+["Air Suspension / Trailer","The trailer floor should have…","No breaks or holes",["Open holes for drainage","Broken panels","Missing sections"]],
+["Air Suspension / Trailer","Landing gear should be…","Fully raised with no missing parts",["Partially lowered while driving","Missing a support pad","Dragging near the road"]],
+["Air Suspension / Trailer","The landing-gear crank handle should be…","Secure",["Hanging loose","Missing","Dragging"]],
+["Air Suspension / Trailer","Side-of-trailer lights should be…","Clean, not missing or broken, and the proper color",["All white","Covered","Broken if still visible"]],
+["Trailer Axles / Rear","The tandem release should be…","Secure with locking pins in place",["Open with pins removed","Loose","Held with tape"]],
+["Trailer Axles / Rear","The torque arm should be…","Securely mounted and not damaged",["Loose","Bent","Cracked"]],
+["Trailer Axles / Rear","Minimum trailer-tire tread depth is…","2/32 inch",["4/32 inch","1/32 inch","6/32 inch"]],
+["Trailer Axles / Rear","The trailer hub oil seal should be…","Adequate and not leaking",["Leaking slightly","Empty","Removed"]],
+["Trailer Axles / Rear","Rear trailer door ties and hinges should be…","Securely mounted, undamaged, and operate and latch properly",["Loose","Unable to latch","Cracked"]],
+["Trailer Axles / Rear","Rear DOT reflective tape should be…","Present and securely affixed",["Missing","Covered","Hanging loose"]],
+["In-Cab","The seat belt should be…","Securely mounted, not ripped or frayed, and properly adjusted",["Frayed but buckling","Loose at its mount","Cut at the edge"]],
+["In-Cab","Which horns must work?","Both air and electric horns",["Only the air horn","Only the electric horn","Neither during inspection"]],
+["In-Cab","The windshield should be…","Clean and free of obstruction or damage",["Covered by paperwork","Cracked in the viewing area","Obstructed"]],
+["In-Cab","Mirrors should be…","Properly adjusted",["Folded inward","Covered","Loose"]],
+["In-Cab","For a safe start, the gear selector should be…","In neutral",["In reverse","In a forward gear","In the highest gear"]],
+["In-Cab","During safe start, what does an ABS light that stays on indicate?","The ABS needs service",["The ABS is fully charged","The parking brake is released","The alternator is charging"]],
+["In-Cab","The oil pressure gauge should be…","Building to normal",["Falling to zero","Unresponsive","Above every marked range"]],
+["In-Cab","The temperature gauge should be…","Climbing toward normal operating range",["Immediately pegged hot","Falling below its scale","Ignored"]],
+["In-Cab","What should the voltmeter indicate?","The alternator is charging",["The coolant is full","The brakes are adjusted","The tires are inflated"]],
+["In-Cab","The air compressor should build pressure to governor cutoff at…","120–140 PSI",["40–55 PSI","60–80 PSI","150–180 PSI"]],
+["In-Cab","Which lighting indicators should be checked in the cab?","Left/right turns, 4-way flashers, and high/low beams",["Only brake lights","Only clearance lights","Only high beams"]],
+["In-Cab","Wiper arms and blades should be…","Secure, undamaged, and operating smoothly",["Loose","Torn","Unable to move smoothly"]],
+["In-Cab","What should the washer system do?","Operate smoothly and deliver washer fluid",["Stay dry","Operate only with engine off","Leak onto the floor"]],
+["In-Cab","What must the heater/defroster demonstrate?","Heating the cab and defrosting the windshield",["Cooling the cab","Inflating the air bags","Charging the battery"]],
+["Parking / Service Brake Tests","For the tractor parking-brake tug test, what is the setup?","Parking brake engaged, trailer brake released, then gently pull forward",["Both brakes released","Parking brake released and trailer brake released","Drive at 5 mph before engaging"]],
+["Parking / Service Brake Tests","During the tractor parking-brake tug test, what should happen?","The parking brake should hold",["The tractor should roll freely","The trailer should disconnect","Air pressure should drop to 40 PSI"]],
+["Parking / Service Brake Tests","For the trailer parking-brake tug test, what is the setup?","Parking brake released, trailer parking brake engaged, then gently pull forward",["Both brakes released","Both brakes applied with no tug","Trailer brake released and tractor brake engaged"]],
+["Parking / Service Brake Tests","At what speed do you perform the service-brake road check?","5 mph",["15 mph","25 mph","40 mph"]],
+["Parking / Service Brake Tests","What should happen when the service brake is applied during the 5-mph check?","Vehicle stops without pulling to either side",["Vehicle pulls left","Vehicle pulls right","Vehicle continues rolling"]],
+["Air Brake Test","Before the applied air-brake leakage test, pressure should be built to…","Governor cutoff, 120–140 PSI",["About 40 PSI","About 55 PSI","Exactly 80 PSI"]],
+["Air Brake Test","After building to governor cutoff for the air-brake test, what do you do with the key?","Turn it off, then back on without starting the engine",["Remove it and leave it off","Restart the engine immediately","Leave the engine running"]],
+["Air Brake Test","How long do you hold the brake during the applied leakage test?","One minute",["10 seconds","30 seconds","Five minutes"]],
+["Air Brake Test","During the one-minute applied test, the gauges should not drop more than…","4 PSI",["1 PSI","8 PSI","10 PSI"]],
+["Air Brake Test","While holding the brake during the leakage test, what else should you do?","Listen for leaks",["Rev the engine","Shift into drive","Release the parking valves"]],
+["Air Brake Test","At approximately what pressure should the low-air warning light and buzzer activate?","55 PSI",["40 PSI","90 PSI","120 PSI"]],
+["Air Brake Test","At approximately what pressure should both protection and parking valves pop out?","40 PSI",["55 PSI","80 PSI","120 PSI"]],
+["Air Brake Test","After completing the air-brake test, what assistance request is in the script?","“Can you please get out and assist me with my lights.”",["“Please check my tire pressure.”","“Please inspect my paperwork.”","“Please start the engine for me.”"]],
+["Lights","Which lights are checked at the front of the tractor?","High/low beams, clearance lights, left/right turns, and 4-way flashers",["Brake lights and taillights only","Reverse lights only","Trailer brake lights only"]],
+["Lights","Which lights are checked on the side of the tractor?","Clearance lights, left/right turns, and 4-way flashers",["High beams only","Brake lights only","Reverse lights only"]],
+["Lights","Which lights are checked at the rear of the tractor?","Clearance, taillights, turns, 4-way flashers, and brake lights",["High/low beams only","Only clearance lights","Only reverse lights"]],
+["Lights","Which lights are checked at the front of the trailer?","Clearance lights",["High beams","Brake lights","Reverse lights"]],
+["Lights","Which lights are checked on the side of the trailer?","Clearance lights, left/right turns, and 4-way flashers",["High/low beams","Brake lights only","Reverse lights"]],
+["Lights","Which lights are checked at the rear of the trailer?","Clearance, turns, 4-way flashers, brake lights, and taillights",["High/low beams","Only clearance lights","Only reverse lights"]],
+["Railroad Crossing","Near the yellow railroad sign, how do you perform the traffic check?","Front to back",["Back to front","Left to right","Right to left"]],
+["Railroad Crossing","Near the railroad crossing, how do you perform the train check?","Left to right",["Front to back","Back to front","Right to left"]],
+["Railroad Crossing","What should you say while crossing the railroad tracks?","I will not brake, shift or accelerate over the track",["I will accelerate hard over the track","I will shift while on the track","I will brake on the track"]],
+["Railroad Crossing","When do you perform the post-crossing traffic check?","After the trailer clears the track",["Before the tractor reaches the track","While stopped on the track","Before the trailer reaches the track"]],
+["Railroad Crossing","After the trailer clears the track, what should you say next?","I will stay in the right lane and accelerate",["I will stop in the right lane","I will shift into the left lane","I will brake immediately"]]
+];
+const sections=[...new Set(Q.map(q=>q[0]))]; let quiz=[],qi=0,score=0,locked=false,cardOrder=[...Q.keys()],ci=0,flipped=false;
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function show(v){["home","quiz","cards","guide"].forEach(x=>$("#"+x).classList.toggle("hide",x!==v));$$(".tabs button").forEach(b=>b.classList.toggle("active",b.dataset.view===v));if(v==="cards")renderCard()}
+$$(".tabs button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
+$("#totalQ").textContent=Q.length; let best=localStorage.getItem("ddaBest");$("#best").textContent=best?best+"%":"—";
+sections.forEach(s=>{let b=document.createElement("button");b.className="btn section-btn";let n=Q.filter(q=>q[0]===s).length;b.innerHTML="<b>"+s+"</b><br><span class='muted'>"+n+" questions</span>";b.onclick=()=>start(Q.filter(q=>q[0]===s));$("#sections").appendChild(b)});
+$("#startAll").onclick=()=>start(Q);function start(pool){quiz=shuffle(pool);qi=0;score=0;show("quiz");renderQ()}
+function renderQ(){locked=false;$("#next").classList.add("hide");$("#feedback").classList.add("hide");let q=quiz[qi];$("#qCount").textContent="Question "+(qi+1)+" of "+quiz.length;$("#qScore").textContent=score+" correct";$("#bar").style.width=((qi)/quiz.length*100)+"%";$("#qSection").textContent=q[0];$("#qText").textContent=q[1];let opts=shuffle([q[2],...q[3]]);$("#options").innerHTML="";opts.forEach(o=>{let b=document.createElement("button");b.className="option";b.textContent=o;b.onclick=()=>answer(b,o,q[2]);$("#options").appendChild(b)})}
+function answer(btn,val,correct){if(locked)return;locked=true;let ok=val===correct;if(ok){score++;btn.classList.add("correct")}else{btn.classList.add("wrong");[...$("#options").children].find(x=>x.textContent===correct)?.classList.add("correct")}$("#feedback").classList.remove("hide");$("#feedback").innerHTML=ok?"<b>Correct.</b> "+correct:"<b>Review this one.</b> Correct answer: "+correct;$("#qScore").textContent=score+" correct";$("#next").classList.remove("hide")}
+$("#next").onclick=()=>{qi++;if(qi<quiz.length)renderQ();else finish()};$("#quit").onclick=()=>show("home");
+function finish(){let pct=Math.round(score/quiz.length*100),old=Number(localStorage.getItem("ddaBest")||0);if(pct>old)localStorage.setItem("ddaBest",pct);$("#best").textContent=Math.max(pct,old)+"%";$("#bar").style.width="100%";$("#qSection").textContent="Complete";$("#qText").textContent="Score: "+score+" / "+quiz.length+" ("+pct+"%)";$("#options").innerHTML="";$("#feedback").classList.remove("hide");$("#feedback").textContent=pct>=90?"Strong run. Retake it to keep the wording automatic.":"Review missed concepts, then run the section again.";$("#next").classList.add("hide")}
+function renderCard(){let q=Q[cardOrder[ci]];flipped=false;$("#cardCount").textContent=(ci+1)+" / "+cardOrder.length;$("#cardSection").textContent=q[0];$("#cardFront").textContent=q[1];$("#cardBack").textContent=q[2];$("#cardBack").classList.add("hide")}
+$("#flash").onclick=()=>{flipped=!flipped;$("#cardBack").classList.toggle("hide",!flipped)};$("#nextCard").onclick=()=>{ci=(ci+1)%cardOrder.length;renderCard()};$("#prevCard").onclick=()=>{ci=(ci-1+cardOrder.length)%cardOrder.length;renderCard()};$("#shuffleCards").onclick=()=>{cardOrder=shuffle(cardOrder);ci=0;renderCard()};
+</script></body></html>
